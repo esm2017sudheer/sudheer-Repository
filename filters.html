@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Filters App </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    </head>
+    <body>
+        <div ng-app="myApp" ng-controller="stuController">
+            <table border="2">
+                <tr>
+                    <td> Enter First Name : </td>
+                    <td> <input type="text" ng-model="student.fn"></td>
+                </tr>
+                <tr>
+                    <td> Enter Last Name : </td>
+                    <td> <input type="text" ng-model="student.ln"></td>
+                </tr>
+                <tr>
+                    <td> Enter fees : </td>
+                    <td> <input type="text" ng-model="student.fee"></td>
+                </tr>
+                <tr>
+                    <td> Enter Subject : </td>
+                    <td> <input type="text" ng-model="subjectName"></td>
+                </tr>
+            </table>
+            <br/>
+            <table border="5">
+                <tr>
+                    <td> Name in Upper Case is : </td><td> {{student.fullname() | uppercase }} </td>
+                </tr>
+                <tr>
+                    <td> Name in Lower Case is : </td><td> {{student.fullname() | lowercase }} </td>
+                </tr>
+                <tr>
+                    <td> Fees : </td><td> {{student.fee | currency }} </td>
+                </tr>
+                <tr>
+                    <td> Subject : </td>
+                    
+                    <td>
+                        <ul>
+                            <li ng-repeat="subject in student.subjects | filter:subjectName | orderBy:'marks'">
+                                {{subject.name+',Marks : '+subject.marks}}
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script>
+            var myApp = angular.module("myApp",[]);
+            myApp.controller('stuController', function($scope){
+                $scope.student = {
+                    fn : "Sudheer",
+                    ln : "Reddy",
+                    fee : 500,
+                    subjects:[{name:'physics',marks:75},
+                            {name:'Maths',marks:85},
+                            {name:'English',marks:80},
+                            {name:'Telugu',marks:83}],
+                    fullname:function(){
+                        var studentObj = $scope.student;
+                        return studentObj.fn+" "+studentObj.ln;
+                    }
+                };
+            });
+            </script>
+    </body>
+</html>
